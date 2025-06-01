@@ -79,7 +79,7 @@ const Selector = ({ videoLinks, switchVid, currindex }: { currindex: number, swi
   </div>
 }
 const CurrentInfo = () => {
-  return <div className='w-[32.125rem] lg:w-[50%] lg:h-[258.16px] flex gap-[10px] p-[4px] border border-[#0000361a] rounded-[2px] absolute top-[2.9rem] left-[1em] backdrop-blur-[5px] bg-[#02000333] h-[204px]'>
+  return <div className='w-[94.3%] lg:w-[50%] lg:h-[258.16px] flex gap-[10px] p-[4px] border border-[#0000361a] rounded-[2px] absolute top-[2.9rem] left-[1em] backdrop-blur-[5px] bg-[#02000333] h-[204px]'>
 
     <div className='w-1/2 h-full flex flex-col justify-between'>
       <div className='w-full bg-purple-700  lg:h-[13.5106rem] h-[10.5rem]'>
