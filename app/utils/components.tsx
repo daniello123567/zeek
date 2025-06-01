@@ -55,7 +55,7 @@ const Words = () => {
 }
 const Hero = () => {
   return <div className='bg-black relative w-full h-screen'>
-    <video autoPlay loop playsInline preload='auto' muted className='w-full object-cover h-full'>
+    <video poster='/hello.png' autoPlay loop playsInline preload='auto' muted className='w-full object-cover h-full'>
       <source src='https://senhkgbpskpdrbaljzng.supabase.co/storage/v1/object/public/mymedias//main.mp4' />
     </video>
     <div className='w-full flex flex-col justify-between items-start absolute p-[1rem] top-0 left-0 right-0 bottom-0 h-full'>
