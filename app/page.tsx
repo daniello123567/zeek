@@ -8,7 +8,8 @@ function page() {
   const client = new QueryClient()
 
   return (
-    <><QueryClientProvider client={client}>
+    <>
+    <QueryClientProvider client={client}>
       <Home />
     </QueryClientProvider>
     </>

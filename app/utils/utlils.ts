@@ -32,7 +32,7 @@ const CarInfo:carInf[] = [
 type Standard = {
   currentInfo:carInf[],
 }
-const standard = create<Standard>((set)=>({
+const standard = create<Standard>(()=>({
   currentInfo:[...CarInfo],
 }))
 
