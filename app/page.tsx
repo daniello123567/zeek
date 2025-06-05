@@ -1,14 +1,16 @@
 "use client"
 import React from 'react'
-import { Header, Hero, ShopSection } from './utils/components'
+import Home from './home'
+import { QueryClient,QueryClientProvider,useQuery } from '@tanstack/react-query'
+
 function Page() {
+    const client = new QueryClient()
 
   return (
-    <div className='w-full'>
-      <Header/>
-      <Hero/>
-      <ShopSection/>
-    </div>
+          <QueryClientProvider client={client}>
+                <Home/>
+            </QueryClientProvider>
+
   )
 }
 

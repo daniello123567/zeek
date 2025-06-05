@@ -7,3 +7,4 @@ const getDataSha = async ()=>{
 if(require.main===module){
   getDataSha()
 }
+export {supabase}
