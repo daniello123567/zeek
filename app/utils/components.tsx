@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import LocalFont from 'next/font/local'
 import gsap from 'gsap';
 import Image from 'next/image';
-import { Car, carInf, getCars, search, showStuff, standard } from './utlils';
+import { Car, carInf, search, showStuff, standard } from './utlils';
 import { Draggable, ScrambleTextPlugin } from 'gsap/all';
 import SplitText from 'gsap/SplitText';
 const Aeo = LocalFont({ src: '../../public/fonts/AeonikPro-Regular.woff2' });
@@ -110,7 +110,7 @@ const CurrentInfo = ({ name, image, description, purePerformances }: carInf) => 
     </div>
   </div>
 }
-const ShopSection = ({params,isPending,data}:{params:any,isPending:boolean,data:Car[]|undefined}) => {
+const ShopSection = ({params,isPending,data}:{params:URLSearchParams,isPending:boolean,data:Car[]|undefined}) => {
   const imageRefs = useRef<HTMLVideoElement[]>([]);
   const [currindex, setindex] = useState<number>(0);
   const [currentCarInfo, setCurrentCarInfo] = useState<carInf>({
@@ -404,7 +404,7 @@ const SingleCar = ({Name,Type,image_url,gearShift,seats,design,stars,price}:{Nam
 
 }
 
-const SingleFilt = ({Text,params}:{Text:string,params:any})=>{
+const SingleFilt = ({Text,params}:{Text:string,params:URLSearchParams})=>{
   const {addGuys,guys} = showStuff();
 
   const handledude = (e:React.MouseEvent<HTMLLabelElement>)=>{
@@ -431,7 +431,7 @@ const SingleFilt = ({Text,params}:{Text:string,params:any})=>{
   </label>
 }
 
-const MobileFilters = ({params}:{params:any})=>{
+const MobileFilters = ({params}:{params:URLSearchParams})=>{
 
  const closeFilt = ()=>{
     gsap.set('#filter',{y:900})

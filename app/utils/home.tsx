@@ -9,7 +9,7 @@ import { search, showStuff, getCars, Car } from './utlils';
 function Home() {
   const { guys } = showStuff();
   const { searchTerm } = search();
-  const [params,setParams] = useState<URLSearchParams>()
+  const [params,setParams] = useState<URLSearchParams|undefined>()
   const { isPending, data } = useQuery<Car[]>({
     queryKey: [guys, searchTerm],
     queryFn: () => getCars({ type: [...guys], searchTerm: searchTerm }),
@@ -17,7 +17,8 @@ function Home() {
 useEffect(()=>{
     const param = new URLSearchParams(window.location.search);
   setParams(param)
-},[])
+},[]);
+if(!params)return;
 
 
   return (

@@ -77,7 +77,7 @@ type dee = { guys:string[],addGuys:(newguys:string[])=>void}
 type deek = { searchTerm:string|null,updateSearch:(st:string)=>void}
 const showStuff = create<dee>((set) => ({
   guys: [],
-  addGuys: (newGuys) => set((state) => ({ guys: [...newGuys] })),
+  addGuys: (newGuys) => set(() => ({ guys: [...newGuys] })),
 }));
 const search = create<deek>((set) => ({
   searchTerm: null,
