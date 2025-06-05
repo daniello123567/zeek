@@ -1,3 +1,4 @@
+"use client"
 import { supabase } from "@/scripts/cron"
 import { create } from "zustand"
 
@@ -61,7 +62,7 @@ const getCars = async (stuffs:{type:string[],searchTerm:string|null})=>{
   const { data, error } = await supabase
   .from('car')
   .select('*')
-  .ilike('Name', `${eri}`)
+  .ilike('Name', `${eri}`).in('Type',bro)
    console.log(error)
 
   if(data){return data}

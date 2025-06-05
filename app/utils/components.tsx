@@ -6,8 +6,6 @@ import Image from 'next/image';
 import { Car, carInf, getCars, search, showStuff, standard } from './utlils';
 import { Draggable, ScrambleTextPlugin } from 'gsap/all';
 import SplitText from 'gsap/SplitText';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 const Aeo = LocalFont({ src: '../../public/fonts/AeonikPro-Regular.woff2' });
 const IMB = LocalFont({ src: "../../public/fonts/IBMPlexMono-Medium.ttf" });
 
@@ -407,7 +405,7 @@ const SingleCar = ({Name,Type,image_url,gearShift,seats,design,stars,price}:{Nam
 }
 
 const SingleFilt = ({Text,params}:{Text:string,params:any})=>{
-  const {addGuys} = showStuff();
+  const {addGuys,guys} = showStuff();
 
   const handledude = (e:React.MouseEvent<HTMLLabelElement>)=>{
     e.preventDefault()
@@ -426,8 +424,9 @@ const SingleFilt = ({Text,params}:{Text:string,params:any})=>{
   window.history.replaceState(null, '', newUrl);
 
    }
+
   return <label onClick={(e)=>handledude(e)} className='w-full h-[4em] hover:cursor-pointer border-b border-gray-200 flex items-center gap-[.5em]'>
-        <input checked={params.getAll('type').includes(Text)} className='w-5 checked:bg-black p-[.3em] accent-black border h-5 rounded-full appearance-none' title={Text} type="checkbox" name={Text} />
+        <input checked={guys.includes(Text)} onChange={()=>{}} className='w-5 checked:bg-black p-[.3em] accent-black border h-5 rounded-full appearance-none' title={Text} type="checkbox" name={Text} />
         <p className='text-[1.1875rem]'>{Text}</p>
   </label>
 }

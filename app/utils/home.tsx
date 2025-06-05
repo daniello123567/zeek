@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Header, Hero, MobileFilters, ShopSection } from './components'
 import { search, showStuff, getCars, Car } from './utlils';
@@ -9,12 +9,15 @@ import { search, showStuff, getCars, Car } from './utlils';
 function Home() {
   const { guys } = showStuff();
   const { searchTerm } = search();
+  const [params,setParams] = useState<URLSearchParams>()
   const { isPending, data } = useQuery<Car[]>({
     queryKey: [guys, searchTerm],
     queryFn: () => getCars({ type: [...guys], searchTerm: searchTerm }),
   });
-
-  const params = new URLSearchParams(window.location.search);
+useEffect(()=>{
+    const param = new URLSearchParams(window.location.search);
+  setParams(param)
+},[])
 
 
   return (
