@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import LocalFont from 'next/font/local'
 import gsap from 'gsap';
 import Image from 'next/image';
-import { Car, carInf, search, showStuff, standard } from './utlils.ts';
+import { Car, carInf, search, showStuff, standard } from './utlils';
 import { Draggable, ScrambleTextPlugin } from 'gsap/all';
 import SplitText from 'gsap/SplitText';
 const Aeo = LocalFont({ src: '../../public/fonts/AeonikPro-Regular.woff2' });

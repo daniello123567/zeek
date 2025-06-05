@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Header, Hero, MobileFilters, ShopSection } from './components'
-import { search, showStuff, getCars, Car } from './utlils.ts';
+import { search, showStuff, getCars, Car } from './utlils';
 
 
 

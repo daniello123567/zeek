@@ -3,7 +3,7 @@ import React from 'react'
 import Home from './utils/home'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-function Page() {
+function page() {
 
   const client = new QueryClient()
 
@@ -11,8 +11,8 @@ function Page() {
     <><QueryClientProvider client={client}>
       <Home />
     </QueryClientProvider>
-</>
+    </>
   )
 }
 
-export default Page
+export default page
