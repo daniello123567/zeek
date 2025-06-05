@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import LocalFont from 'next/font/local'
 import gsap from 'gsap';
 import Image from 'next/image';
-import { Car, carInf, search, showStuff, standard } from './utlils';
+import { Car, carInf, search, showStuff, standard } from './utlils.ts';
 import { Draggable, ScrambleTextPlugin } from 'gsap/all';
 import SplitText from 'gsap/SplitText';
 const Aeo = LocalFont({ src: '../../public/fonts/AeonikPro-Regular.woff2' });
@@ -110,7 +110,7 @@ const CurrentInfo = ({ name, image, description, purePerformances }: carInf) => 
     </div>
   </div>
 }
-const ShopSection = ({params,isPending,data}:{params:URLSearchParams,isPending:boolean,data:Car[]|undefined}) => {
+const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isPending: boolean, data: Car[] | undefined }) => {
   const imageRefs = useRef<HTMLVideoElement[]>([]);
   const [currindex, setindex] = useState<number>(0);
   const [currentCarInfo, setCurrentCarInfo] = useState<carInf>({
@@ -124,7 +124,7 @@ const ShopSection = ({params,isPending,data}:{params:URLSearchParams,isPending:b
     "/car1.mp4",
     "/car3.mp4"];
   const { currentInfo } = standard()
-  gsap.registerPlugin(ScrambleTextPlugin, SplitText,Draggable);
+  gsap.registerPlugin(ScrambleTextPlugin, SplitText, Draggable);
 
   const switchVid = (index: number) => {
     if (index == currindex) return;
@@ -166,31 +166,32 @@ const ShopSection = ({params,isPending,data}:{params:URLSearchParams,isPending:b
     gsap.set(imageRefs.current[0], {
       opacity: 1
     });
- Draggable.create("#whitboy",{
-    type:'y',
-    bounds:{minY:0,maxY:window.innerHeight},
-    onDrag:function(){
-      if(this.y>200){
-        gsap.fromTo("#whitboy",{
-          y:this.y,
-        },{y:window.innerHeight,
-          duration:0.5,
-          ease:"power2.in",
-          onComplete:function(){
-            gsap.set("#filter",{
-              y:900
-            })
-          }
-        })
-      }else{
-        gsap.to("#whitboy",{
-          y:0,
-          duration:0.3,
-          ease:"power2.out"
-        })
+    Draggable.create("#whitboy", {
+      type: 'y',
+      bounds: { minY: 0, maxY: window.innerHeight },
+      onDrag: function () {
+        if (this.y > 200) {
+          gsap.fromTo("#whitboy", {
+            y: this.y,
+          }, {
+            y: window.innerHeight,
+            duration: 0.5,
+            ease: "power2.in",
+            onComplete: function () {
+              gsap.set("#filter", {
+                y: 900
+              })
+            }
+          })
+        } else {
+          gsap.to("#whitboy", {
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out"
+          })
+        }
       }
-    }
-  })
+    })
     const ScrambleGuys = document.querySelectorAll("#scramble");
     ScrambleGuys.forEach((guy) => {
       const tlForCi = gsap.timeline();
@@ -213,120 +214,120 @@ const ShopSection = ({params,isPending,data}:{params:URLSearchParams,isPending:b
 
 
 
-    const {updateSearch} = search()
+  const { updateSearch } = search()
 
-  const Search = (e:React.ChangeEvent<HTMLInputElement>)=>{
+  const Search = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-      if(e.target.value){
+    if (e.target.value) {
       updateSearch(`${e.currentTarget.value}`)
-   params.set('searchTerm',`${e.currentTarget.value}`);
-  }else {
-    params.delete('searchTerm')
-  }
+      params.set('searchTerm', `${e.currentTarget.value}`);
+    } else {
+      params.delete('searchTerm')
+    }
 
-   const newUrl = `${window.location.pathname}?${params.toString()}`;
-   window.history.replaceState(null,'',newUrl);
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState(null, '', newUrl);
 
   };
 
-  const showFil= ()=>{
-    gsap.timeline().set('#filter',{y:0}).fromTo('#whitboy',{y:900},{y:0,duration:0.5})
+  const showFil = () => {
+    gsap.timeline().set('#filter', { y: 0 }).fromTo('#whitboy', { y: 900 }, { y: 0, duration: 0.5 })
 
   }
-  const {guys,addGuys} = showStuff();
-  const handleDel = (e:React.MouseEvent<HTMLDivElement>)=>{
+  const { guys, addGuys } = showStuff();
+  const handleDel = (e: React.MouseEvent<HTMLDivElement>) => {
     const text = e.currentTarget.innerText;
     const currentTypes = params.getAll('type');
     const updatedTypes = currentTypes.includes(text)
-    ? currentTypes.filter((type:string) => type !== text)
-    : [...currentTypes, text];
+      ? currentTypes.filter((type: string) => type !== text)
+      : [...currentTypes, text];
     params.delete('type')
-    updatedTypes.forEach((type:string) => params.append('type', type));
-     addGuys([...updatedTypes])
-  const newUrl = `${window.location.pathname}?${params.toString()}`
-  window.history.replaceState(null, '', newUrl);
+    updatedTypes.forEach((type: string) => params.append('type', type));
+    addGuys([...updatedTypes])
+    const newUrl = `${window.location.pathname}?${params.toString()}`
+    window.history.replaceState(null, '', newUrl);
   }
-  return<>
-<div  className={`${Aeo.className} lg:mb-[1em] lg:pt-[5em] px-[1em] pt-[2em] `}>
-  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
-    Top Zeekr picks vehicle for you
-  </h2>
-  <p className="mt-2 text-sm md:text-base text-gray-600">
-    Experience the epitome of amazing journey with our top picks.
-  </p>
-</div>
- <div className={`${Aeo.className} lg:hidden h-[5em] p-[.7em] `}>
-  <div className='w-full gap-[2em] flex justify-between items-center'>
-     <input onChange={(e)=>Search(e)} className="text-sm rounded-full px-[1em] py-[.5em] max-w-[24.5rem] outline-none w-[80%] border border-gray-200" title='search' placeholder='search' type="text" />
+  return <>
+    <div className={`${Aeo.className} lg:mb-[1em] lg:pt-[5em] px-[1em] pt-[2em] `}>
+      <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+        Top Zeekr picks vehicle for you
+      </h2>
+      <p className="mt-2 text-sm md:text-base text-gray-600">
+        Experience the epitome of amazing journey with our top picks.
+      </p>
+    </div>
+    <div className={`${Aeo.className} lg:hidden h-[5em] p-[.7em] `}>
+      <div className='w-full gap-[2em] flex justify-between items-center'>
+        <input onChange={(e) => Search(e)} className="text-sm rounded-full px-[1em] py-[.5em] max-w-[24.5rem] outline-none w-[80%] border border-gray-200" title='search' placeholder='search' type="text" />
 
-  <div onClick={showFil} className='flex items-center cursor-pointer gap-[.5em] px-[.5em] rounded-[4px] bg-gray-100'>
-    <div  className='w-[1em] h-full '>
-      <svg className='h-full w-full' viewBox="0 -0.5 21 21" version="1.1"
-       xmlns="http://www.w3.org/2000/svg"
-         fill="#000000">
-          <g id="SVGRepo_bgCarrier" strokeWidth="0">
-            </g><g id="SVGRepo_tracerCarrier"
-            strokeLinecap="round" strokeLinejoin="round">
+        <div onClick={showFil} className='flex items-center cursor-pointer gap-[.5em] px-[.5em] rounded-[4px] bg-gray-100'>
+          <div className='w-[1em] h-full '>
+            <svg className='h-full w-full' viewBox="0 -0.5 21 21" version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#000000">
+              <g id="SVGRepo_bgCarrier" strokeWidth="0">
+              </g><g id="SVGRepo_tracerCarrier"
+                strokeLinecap="round" strokeLinejoin="round">
               </g><g id="SVGRepo_iconCarrier">
                 <defs> </defs>
-                 <g id="Page-1" stroke="none"
+                <g id="Page-1" stroke="none"
                   strokeWidth="1" fill="none"
                   fillRule="evenodd">
                   <g
-                   transform="translate(-99.000000, -440.000000)"
-                   fill="#000000">
-                   <g id="icons" transform="translate(56.000000, 160.000000)">
-                    <path d="M57.7,289 L54.55,289 L54.55,286 L52.45,286 L52.45,289 L49.3,289 L49.3,291 L52.45,291 L52.45,294 L54.55,294 L54.55,291 L57.7,291 L57.7,289 Z M55.6,280 L55.6,282 L61.9,282 L61.9,288 L64,288 L64,280 L55.6,280 Z M61.9,298 L55.6,298 L55.6,300 L64,300 L64,292 L61.9,292 L61.9,298 Z M45.1,292 L43,292 L43,300 L51.4,300 L51.4,298 L45.1,298 L45.1,292 Z M45.1,288 L43,288 L43,280 L51.4,280 L51.4,282 L45.1,282 L45.1,288 Z" > </path> </g> </g> </g> </g></svg></div>
-    <p>filter</p>
+                    transform="translate(-99.000000, -440.000000)"
+                    fill="#000000">
+                    <g id="icons" transform="translate(56.000000, 160.000000)">
+                      <path d="M57.7,289 L54.55,289 L54.55,286 L52.45,286 L52.45,289 L49.3,289 L49.3,291 L52.45,291 L52.45,294 L54.55,294 L54.55,291 L57.7,291 L57.7,289 Z M55.6,280 L55.6,282 L61.9,282 L61.9,288 L64,288 L64,280 L55.6,280 Z M61.9,298 L55.6,298 L55.6,300 L64,300 L64,292 L61.9,292 L61.9,298 Z M45.1,292 L43,292 L43,300 L51.4,300 L51.4,298 L45.1,298 L45.1,292 Z M45.1,288 L43,288 L43,280 L51.4,280 L51.4,282 L45.1,282 L45.1,288 Z" > </path> </g> </g> </g> </g></svg></div>
+          <p>filter</p>
+        </div>
+
+      </div>
+      <div className='w-full my-[.5em] flex gap-[1em]'>
+        {guys.map((type: string, index: number) => {
+          if (type) return <div onClick={handleDel} key={index} className='w-fit flex items-center py-[.6em] rounded-[3px] text-sm px-[.5em] bg-gray-200 h-fit'>
+            <p>{type}</p>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6L6 18" />
+              <path d="M6 6L18 18" />
+            </svg>
+          </div>
+        })}
+      </div>
     </div>
+    <div className='w-full lg:grid-cols-4 grid luke:grid-cols-3 gap-[1em] grid-cols-2 p-[1em] h-fit'>
+      {!isPending ? data?.map((vehicle) => {
+        return <SingleCar seats={vehicle.specifics.seats} stars={vehicle.specifics.stars} design={vehicle.specifics.design_sha} gearShift={vehicle.specifics.gearShift} price={vehicle.Price} Type={vehicle.Type} image_url={vehicle.image_url} Name={vehicle.Name} key={vehicle.id} />
+      }) : <Skeletons />}
 
-  </div>
-  <div className='w-full my-[.5em] flex gap-[1em]'>
-    {guys.map((type:string,index:number)=>{
-      if(type)return <div onClick={handleDel} key={index} className='w-fit flex items-center py-[.6em] rounded-[3px] text-sm px-[.5em] bg-gray-200 h-fit'>
-      <p>{type}</p>
-      <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M18 6L6 18" />
-            <path d="M6 6L18 18" />
-          </svg>
+
     </div>
-    })}
-  </div>
- </div>
-  <div className='w-full lg:grid-cols-4 grid luke:grid-cols-3 gap-[1em] grid-cols-2 p-[1em] h-fit'>
-    {!isPending?data?.map((vehicle)=>{
-      return <SingleCar seats={vehicle.specifics.seats} stars={vehicle.specifics.stars} design={vehicle.specifics.design_sha} gearShift={vehicle.specifics.gearShift} price={vehicle.Price} Type={vehicle.Type} image_url={vehicle.image_url} Name={vehicle.Name} key={vehicle.id}/>
-    }):<Skeletons/>}
-
-
-  </div>
-  <div className='w-full h-screen relative'>
-    {VideoLinks.map((link: string, i) => {
-      return <video
-        ref={(el) => { if (el) imageRefs.current[i] = el }}
-        key={i} playsInline={true} preload='auto'
-        muted={true}
-        className='h-full opacity-0  w-full object-cover absolute top-0 left-0'
-      >
-        <source src={link} />
-      </video>
-    })}
-    <div className='flex lg:justify-start lg:px-[.5em] justify-center items-center w-full'>
-      {<CurrentInfo purePerformances={currentCarInfo.purePerformances} description={currentCarInfo.description} image={currentCarInfo.image} name={currentCarInfo.name} />
-      }
-    </div>
-    <div className=" w-full h-full right-0 top-0 left-0">
-      <Selector currindex={currindex} switchVid={switchVid} videoLinks={VideoLinks} />
-    </div>
+    <div className='w-full h-screen relative'>
+      {VideoLinks.map((link: string, i) => {
+        return <video
+          ref={(el) => { if (el) imageRefs.current[i] = el }}
+          key={i} playsInline={true} preload='auto'
+          muted={true}
+          className='h-full opacity-0  w-full object-cover absolute top-0 left-0'
+        >
+          <source src={link} />
+        </video>
+      })}
+      <div className='flex lg:justify-start lg:px-[.5em] justify-center items-center w-full'>
+        {<CurrentInfo purePerformances={currentCarInfo.purePerformances} description={currentCarInfo.description} image={currentCarInfo.image} name={currentCarInfo.name} />
+        }
+      </div>
+      <div className=" w-full h-full right-0 top-0 left-0">
+        <Selector currindex={currindex} switchVid={switchVid} videoLinks={VideoLinks} />
+      </div>
 
 
 
@@ -347,155 +348,155 @@ const ShopSection = ({params,isPending,data}:{params:URLSearchParams,isPending:b
 
 
 
-  </div></>
+    </div></>
 }
 
 
-const SingleCar = ({Name,Type,image_url,gearShift,seats,design,stars,price}:{Name:string,Type:string,image_url:string,gearShift:string,seats:number,design:number,stars:number,price:number})=>{
-  return  <div className={`${Aeo.className}  max-w-sm  relative  md:max-w-md lg:max-w-sm bg-white text-white  overflow-hidden`}>
-      <div className="absolute bg-gray-200 text-sm text-gray-700 px-3 py-1 rounded-full top-2 left-2">
-       {Type}
+const SingleCar = ({ Name, Type, image_url, gearShift, seats, design, stars, price }: { Name: string, Type: string, image_url: string, gearShift: string, seats: number, design: number, stars: number, price: number }) => {
+  return <div className={`${Aeo.className}  max-w-sm  relative  md:max-w-md lg:max-w-sm bg-white text-white  overflow-hidden`}>
+    <div className="absolute bg-gray-200 text-sm text-gray-700 px-3 py-1 rounded-full top-2 left-2">
+      {Type}
+    </div>
+    <div className='h-48 bg-gray-50 flex justify-center items-center w-full'>
+      <img src={`${image_url}`} alt={Name} />
+
+    </div>
+
+    <div className="pt-[1em]">
+      <h2 className="text-lg font-semibold text-gray-800">{Name}</h2>
+
+      <div className="flex items-center text-sm text-gray-600 mt-1">
+        <div className="w-4 h-4  rounded mr-2">
+          <Image className='w-full h-full' src={'/gear.png'} width={1000} height={1000} alt='gear' />
+        </div>
+        {gearShift}
       </div>
-   <div className='h-48 bg-gray-50 flex justify-center items-center w-full'>
-          <img  src={`${image_url}`} alt={Name}  />
 
-   </div>
+      <div className="flex items-center space-x-4 mt-3 text-sm text-gray-700">
+        <div className="flex items-center">
+          <div className="w-4 h-4  rounded mr-1">
+            <Image className='w-full h-full' src={'/carsit.png'} width={1000} height={1000} alt='car seat' />
 
-      <div className="pt-[1em]">
-        <h2 className="text-lg font-semibold text-gray-800">{Name}</h2>
-
-        <div className="flex items-center text-sm text-gray-600 mt-1">
-          <div className="w-4 h-4  rounded mr-2">
-           <Image className='w-full h-full' src={'/gear.png'} width={1000} height={1000} alt='gear'/>
           </div>
-          {gearShift}
+          {seats}
         </div>
+        <div className="flex items-center">
+          <div className="w-4 h-4  rounded mr-1">
+            <Image className='w-full h-full' src={'/fueller.png'} width={1000} height={1000} alt='fuel' />
 
-        <div className="flex items-center space-x-4 mt-3 text-sm text-gray-700">
-          <div className="flex items-center">
-            <div className="w-4 h-4  rounded mr-1">
-                         <Image className='w-full h-full' src={'/carsit.png'} width={1000} height={1000} alt='car seat'/>
-
-            </div>
-            {seats}
           </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4  rounded mr-1">
-                         <Image className='w-full h-full' src={'/fueller.png'} width={1000} height={1000} alt='fuel'/>
-
-            </div>
-            {design}
-          </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4  rounded mr-1">
-                         <Image className='w-full h-full' src={'/star.png'} width={1000} height={1000} alt='gear'/>
-
-            </div>
-            {stars}
-          </div>
+          {design}
         </div>
+        <div className="flex items-center">
+          <div className="w-4 h-4  rounded mr-1">
+            <Image className='w-full h-full' src={'/star.png'} width={1000} height={1000} alt='gear' />
 
-        <div className="mt-4">
-          <span className="text-sm text-gray-500">Start from</span>
-          <div className="text-xl font-bold text-gray-800">${Number(price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} </div>
+          </div>
+          {stars}
         </div>
+      </div>
+
+      <div className="mt-4">
+        <span className="text-sm text-gray-500">Start from</span>
+        <div className="text-xl font-bold text-gray-800">${Number(price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </div>
       </div>
     </div>
+  </div>
 
 }
 
-const SingleFilt = ({Text,params}:{Text:string,params:URLSearchParams})=>{
-  const {addGuys,guys} = showStuff();
+const SingleFilt = ({ Text, params }: { Text: string, params: URLSearchParams }) => {
+  const { addGuys, guys } = showStuff();
 
-  const handledude = (e:React.MouseEvent<HTMLLabelElement>)=>{
+  const handledude = (e: React.MouseEvent<HTMLLabelElement>) => {
     e.preventDefault()
     const text = e.currentTarget.textContent;
-    if(!text)return;
+    if (!text) return;
 
 
     const currentTypes = params.getAll('type');
     const updatedTypes = currentTypes.includes(text)
-    ? currentTypes.filter((type:string) => type !== text)
-    : [...currentTypes, text];
+      ? currentTypes.filter((type: string) => type !== text)
+      : [...currentTypes, text];
     params.delete('type')
-    updatedTypes.forEach((type:string) => params.append('type', type));
-     addGuys([...updatedTypes])
-  const newUrl = `${window.location.pathname}?${params.toString()}`
-  window.history.replaceState(null, '', newUrl);
+    updatedTypes.forEach((type: string) => params.append('type', type));
+    addGuys([...updatedTypes])
+    const newUrl = `${window.location.pathname}?${params.toString()}`
+    window.history.replaceState(null, '', newUrl);
 
-   }
+  }
 
-  return <label onClick={(e)=>handledude(e)} className='w-full h-[4em] hover:cursor-pointer border-b border-gray-200 flex items-center gap-[.5em]'>
-        <input checked={guys.includes(Text)} onChange={()=>{}} className='w-5 checked:bg-black p-[.3em] accent-black border h-5 rounded-full appearance-none' title={Text} type="checkbox" name={Text} />
-        <p className='text-[1.1875rem]'>{Text}</p>
+  return <label onClick={(e) => handledude(e)} className='w-full h-[4em] hover:cursor-pointer border-b border-gray-200 flex items-center gap-[.5em]'>
+    <input checked={guys.includes(Text)} onChange={() => { }} className='w-5 checked:bg-black p-[.3em] accent-black border h-5 rounded-full appearance-none' title={Text} type="checkbox" name={Text} />
+    <p className='text-[1.1875rem]'>{Text}</p>
   </label>
 }
 
-const MobileFilters = ({params}:{params:URLSearchParams})=>{
+const MobileFilters = ({ params }: { params: URLSearchParams }) => {
 
- const closeFilt = ()=>{
-    gsap.set('#filter',{y:900})
+  const closeFilt = () => {
+    gsap.set('#filter', { y: 900 })
   }
-  const types = ["suv","Mininvan","Hatchback"];
-  return <div  onClick={closeFilt} id='filter' className='w-full md:justify-center md:items-center   translate-y-[700px] flex flex-col justify-between  z-50 bg-[oklab(0 0 0/0.2)] backdrop-blur-[5px] h-screen top-0 bottom-0 left-0 right-0 fixed'>
-     <div className='md:hidden'></div>
-     <div onClick={(e)=>e.stopPropagation()} id='whitboy' className='bg-white md:w-[50%] md:rounded-sm md:border rounded-t-lg border-t border-zinc-200 w-full h-[50%]'>
+  const types = ["suv", "Mininvan", "Hatchback"];
+  return <div onClick={closeFilt} id='filter' className='w-full md:justify-center md:items-center   translate-y-[700px] flex flex-col justify-between  z-50 bg-[oklab(0 0 0/0.2)] backdrop-blur-[5px] h-screen top-0 bottom-0 left-0 right-0 fixed'>
+    <div className='md:hidden'></div>
+    <div onClick={(e) => e.stopPropagation()} id='whitboy' className='bg-white md:w-[50%] md:rounded-sm md:border rounded-t-lg border-t border-zinc-200 w-full h-[50%]'>
       <div className='w-full md:hidden flex pt-[1em] justify-center items-center'>
         <div className='w-[6em] h-[.6em] rounded bg-gray-400'></div>
       </div>
-<div className={`${Aeo.className} px-[2em] pt-[2em]   w-full h-full flex flex-col `}>
- <div className=''>
-    <p className='font-bold mb-2 text-2xl'>Type</p>
-    {types.map((type:string)=>{
-      return <SingleFilt params={params} key={type} Text={type}/>
-    })}
- </div>
-</div>
+      <div className={`${Aeo.className} px-[2em] pt-[2em]   w-full h-full flex flex-col `}>
+        <div className=''>
+          <p className='font-bold mb-2 text-2xl'>Type</p>
+          {types.map((type: string) => {
+            return <SingleFilt params={params} key={type} Text={type} />
+          })}
+        </div>
+      </div>
 
-     </div>
+    </div>
   </div>
 }
-const Skeletons = ()=>{
+const Skeletons = () => {
   return <>
- {Array(8).fill('').map((arr,index)=><div key={index} className={`${Aeo.className}  animate-pulse  max-w-sm  relative  md:max-w-md lg:max-w-sm bg-white text-white  overflow-hidden`}>
+    {Array(8).fill('').map((arr, index) => <div key={index} className={`${Aeo.className}  animate-pulse  max-w-sm  relative  md:max-w-md lg:max-w-sm bg-white text-white  overflow-hidden`}>
       <div className="absolute  bg-gray-500 text-sm text-gray-700 px-3 py-1 rounded-full top-2 left-2">
-      <p className='opacity-0'>hello</p>
+        <p className='opacity-0'>hello</p>
       </div>
-   <div className='h-48  bg-gray-300 flex justify-center items-center w-full'>
-          {/* <img  src={`${image_url}`} alt={Name}  /> */}
+      <div className='h-48  bg-gray-300 flex justify-center items-center w-full'>
+        {/* <img  src={`${image_url}`} alt={Name}  /> */}
 
-   </div>
+      </div>
 
       <div className="pt-[1em]">
         <h2 className="text-lg w-fit bg-gray-300 rounded-full font-semibold text-gray-800">
           <p className='opacity-0'>how far fans me</p>
-          </h2>
+        </h2>
 
         <div className="flex items-center text-sm text-gray-600 mt-1">
           <div className="w-4 h-4 bg-gray-200  rounded mr-2">
-           {/* <Image className='w-full h-full' src={'/gear.png'} width={1000} height={1000} alt='gear'/> */}
+            {/* <Image className='w-full h-full' src={'/gear.png'} width={1000} height={1000} alt='gear'/> */}
           </div>
-         <p className='bg-gray-200 w-4 h-4 rounded'></p>
+          <p className='bg-gray-200 w-4 h-4 rounded'></p>
         </div>
 
         <div className='mt-[.5em]'>
-      <h2 className="text-lg w-fit bg-gray-200 rounded-full font-semibold text-gray-800">
-          <p className='opacity-0'>how far fans me</p>
+          <h2 className="text-lg w-fit bg-gray-200 rounded-full font-semibold text-gray-800">
+            <p className='opacity-0'>how far fans me</p>
           </h2>
         </div>
 
         <div className="mt-4">
           <div className="text-sm bg-gray-200 rounded w-fit text-gray-500"><p className='opacity-0'>start from</p></div>
           <div className="text-xl mt-[.5em] flex gap-[1em] font-bold text-gray-800">
-          <div className="text-sm bg-gray-200 rounded w-fit text-gray-500"><p className='opacity-0'>start</p></div>
-          <div className="text-sm bg-gray-200 rounded w-fit text-gray-500"><p className='opacity-0'>start</p></div>
-            </div>
+            <div className="text-sm bg-gray-200 rounded w-fit text-gray-500"><p className='opacity-0'>start</p></div>
+            <div className="text-sm bg-gray-200 rounded w-fit text-gray-500"><p className='opacity-0'>start</p></div>
+          </div>
         </div>
       </div>
     </div>)}
 
 
-    </>
+  </>
 }
 
-export { Hero, ShopSection,Skeletons, Header,MobileFilters }
+export { Hero, ShopSection, Skeletons, Header, MobileFilters }

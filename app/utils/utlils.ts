@@ -49,7 +49,7 @@ type Car = {
   specifics:{
     seats:number,
     stars:number,
-    gearShift:"Automatic"|"Manual",
+    gearShift:string,
     design_sha:number
   }
 }
