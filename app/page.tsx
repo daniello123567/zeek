@@ -1,15 +1,15 @@
 "use client"
 import React from 'react'
-import Home from './home'
-import { QueryClient,QueryClientProvider,useQuery } from '@tanstack/react-query'
+import Home from './utils/home'
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 
 function Page() {
-    const client = new QueryClient()
+  const client = new QueryClient()
 
   return (
-          <QueryClientProvider client={client}>
-                <Home/>
-            </QueryClientProvider>
+    <QueryClientProvider client={client}>
+      <Home />
+    </QueryClientProvider>
 
   )
 }

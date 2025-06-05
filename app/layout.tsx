@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import './utils/globals.css'
 function Rootlayout({children}:{children:React.ReactNode}) {
