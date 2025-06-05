@@ -82,6 +82,5 @@ const search = create<deek>((set) => ({
   searchTerm: null,
   updateSearch: (st) => set(() => ({ searchTerm: `${st}` })),
 }));
-type carj = {data:Car[],setCars:(cars:Car[])=>void}
 
 export {CarInfo,type carInf,standard,getCars,type Car,showStuff,search}

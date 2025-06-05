@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Header, Hero, MobileFilters, ShopSection} from './utils/components'
@@ -8,7 +9,7 @@ import { search, showStuff,getCars,Car } from './utils/utlils';
 function Home() {
 const {guys} = showStuff();
 const {searchTerm} = search();
-const {isPending,error,data} = useQuery<Car[]>({
+const {isPending,data} = useQuery<Car[]>({
     queryKey:[guys,searchTerm],
     queryFn:()=>getCars({type:[...guys],searchTerm:searchTerm}),
   });
