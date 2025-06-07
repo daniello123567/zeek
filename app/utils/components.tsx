@@ -720,7 +720,7 @@ const Footer = () => {
 
     <div id='id-one' className={`${Aeo.className} opacity-0 md:w-[50%]  sticky top-[1em] left-[1em] z-50 md:text-[5.03125vw]  lg:text-[3.6852122987vw]   w-[85%]  leading-[120%] text-[6.6666666667vw] md:left-[.3em] md:top-[.2em] text-white text-left`}>
       <div className='id-two'>Intelligent Matrix LED projection Headlights.
-        <p className=' lg:text-[2vw] w-full text-wrap leading-[120%] mt-[1rem] md:text-[3vw] text-[4.0833333333vw]'>Zeekr's LED lights are bright, energy-efficient, durable, and stylishly designed.</p>
+        <p className=' lg:text-[2vw] w-full text-wrap leading-[120%] mt-[1rem] md:text-[3vw] text-[4.0833333333vw]'>Zeekr&apos;s LED lights are bright, energy-efficient, durable, and stylishly designed.</p>
       </div>
     </div>
 
@@ -734,7 +734,7 @@ const Footer = () => {
         md:w-[55%] lg:w-[50%]  sticky top-[64vh] left-[1em] z-50 md:text-[5.03125vw]  lg:text-[3.6852122987vw]   w-[85%]  leading-[120%] text-[6.6666666667vw] md:right-0 md:text-left md:bottom-[.2em] text-white text-left`}>
       <div className='id-four'>Tires
         <p className=' lg:text-[2vw] w-full text-wrap leading-[120%] mt-[1rem] md:text-[3vw] text-[4.0833333333vw]'>
-Zeekr's tires are high-quality, offering excellent grip, durability, and efficiency. Designed for performance, they ensure smooth handling and safety across various conditions, complementing Zeekr's premium electric vehicles.          </p>
+Zeekr&apos;s tires are high-quality, offering excellent grip, durability, and efficiency. Designed for performance, they ensure smooth handling and safety across various conditions, complementing Zeekr&apos;s premium electric vehicles.          </p>
       </div>
     </div>
     <div className='triggerman absolute top-[90em] w-full h-[1em] '></div>
