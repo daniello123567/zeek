@@ -34,9 +34,18 @@ type Standard = {
 }
 const standard = create<Standard>(()=>({
   currentInfo:[...CarInfo],
+}));
+
+type CCII = { Name: string, Type: string, image_url: string, gearShift: string, seats: number, design: number, stars: number, price: number }
+
+type CCy = {
+  infomation:CCII,
+  setCCI:(info:CCII)=>void;
+}
+const CCI = create<CCy>((set)=>({
+  infomation:{Name:'',Type:'',image_url:'',gearShift:'',seats:0,design:0,stars:0,price:0},
+  setCCI:(info)=>set(()=>({infomation:{...info}}))
 }))
-
-
 
 
 
@@ -57,7 +66,8 @@ type Car = {
 
 
 const getCars = async (stuffs:{type:string[],searchTerm:string|null})=>{
-  const eri = stuffs.searchTerm? `%${stuffs.searchTerm}%` : '%'
+  const eri = stuffs.searchTerm?.length!==0? `%${stuffs.searchTerm}%` : '%';
+  console.log(eri)
   const bro = stuffs.type.length ===0 ? ['Suv','Minivan','Hatchback']: [...stuffs.type]
   const { data, error } = await supabase
   .from('car')
@@ -80,8 +90,16 @@ const showStuff = create<dee>((set) => ({
   addGuys: (newGuys) => set(() => ({ guys: [...newGuys] })),
 }));
 const search = create<deek>((set) => ({
-  searchTerm: null,
+  searchTerm: '',
   updateSearch: (st) => set(() => ({ searchTerm: `${st}` })),
 }));
 
-export {CarInfo,type carInf,standard,getCars,type Car,showStuff,search}
+type deets = {
+  status:boolean,
+  setStatus:()=>void;
+}
+const deets = create<deets>((set)=>({
+  status:false,
+  setStatus:()=>set((state)=>({status:!state.status}))
+}))
+export {deets,CCI,CarInfo,type carInf,standard,getCars,type Car,showStuff,search}

@@ -3,20 +3,25 @@ import React, { useEffect, useRef, useState } from 'react'
 import LocalFont from 'next/font/local'
 import gsap from 'gsap';
 import Image from 'next/image';
-import { Car, carInf, search, showStuff, standard } from './utlils';
-import { Draggable, ScrambleTextPlugin } from 'gsap/all';
+import { Car, carInf, CCI, deets, search, showStuff, standard } from './utlils';
+import { Draggable, ScrambleTextPlugin, ScrollToPlugin, ScrollTrigger } from 'gsap/all';
 import SplitText from 'gsap/SplitText';
+import { usePathname, useRouter } from 'next/navigation';
 const Aeo = LocalFont({ src: '../../public/fonts/AeonikPro-Regular.woff2' });
 const IMB = LocalFont({ src: "../../public/fonts/IBMPlexMono-Medium.ttf" });
 
 const Header = () => {
-  return <div className='flex z-50 px-[1em]  fixed top-[1em] left-0 right-0  justify-between w-full items-center'>
+  const scrolltoshop = ()=>{
+    const shopsect = document.getElementById('shopsect');
+    shopsect?.scrollIntoView({behavior:"smooth"});
+  }
+  return <div id='header' className='flex z-50 px-[1em]  fixed top-[1em] left-0 right-0  justify-between w-full items-center'>
     <div className='p-[0.2em] pr-[0.3em]  w-fit border-1 border-[hsla(0,0%,54%,.102)] cursor-pointer bg-[oklab(0 0 0/0.2)]  backdrop-blur-lg  rounded-[2px]'>
       <svg className='w-full h-full' width="93" height="24" viewBox="0 0 93 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.7202 21.5554H15.0706V14.4755L9.42012 8.74527V2.44172H20.7202V21.5554ZM1.88483 21.5554V2.44172H7.53529V9.53627L13.1857 15.2665V21.5554H1.88483ZM22.6034 0.532715H0V23.4669H22.6034V0.532715ZM40.2434 8.28208L34.3853 14.4796H39.9379V15.7444H31.305V15.7232L37.1632 9.52567H31.6316V8.26006H40.2451V8.28208H40.2434ZM76.8708 15.7428L71.458 11.8791V15.7428H69.9498V8.25843H71.458V11.8579L76.7188 8.25843H79.0401L73.7574 11.8359L79.2244 15.7428H76.8708ZM92.1022 15.7428L88.002 12.9474H88.7625C90.2045 12.9474 91.4734 12.1107 91.4734 10.6804V10.5809C91.4734 9.12853 90.1939 8.25843 88.7076 8.25843H82.6991V15.7428H84.2064V11.8367L89.8755 15.7428H92.1022ZM84.2064 9.52567H88.7407C89.3049 9.52567 89.8254 9.75726 89.9781 10.2196C89.9886 10.2971 89.9992 10.4944 89.9992 10.6942C89.9992 10.8924 89.9886 11.0897 89.9781 11.1672C89.8254 11.5749 89.3049 11.8277 88.7407 11.8277H84.2064V9.52567ZM52.5005 14.4127V15.7444H44.8302V8.26006H52.5005V9.59253H46.2964V11.199H52.1756V12.5323H46.2964V14.4144H52.4997L52.5005 14.4127ZM65.0607 14.4127V15.7444H57.392V8.26006H65.0615V9.59253H58.8574V11.199H64.7366V12.5323H58.8574V14.4144H65.0615L65.0607 14.4127Z" fill="white"></path></svg>
     </div>
 
     <div className='h-full w-fit flex gap-[1em]'>
-      <div className='p-[.2em] h-[32.2px] bg-[oklab(0 0 0/0.2)] border-1 border-[hsla(0,0%,54%,.102)] backdrop-blur-sm'>
+      <div onClick={scrolltoshop} className='p-[.2em] h-[32.2px] bg-[oklab(0 0 0/0.2)] border-1 border-[hsla(0,0%,54%,.102)] backdrop-blur-sm'>
         <svg className=' cursor-pointer' width="24" height="24" fill="white" version="1.1" id="Capa_1" viewBox="0 0 48.997 48.998"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M45.961,18.702c-0.033-0.038-0.061-0.075-0.1-0.112l-1.717-1.657c1.424-0.323,2.957-1.516,2.957-2.74 c0-1.426-1.979-1.932-3.668-1.932c-1.766,0-1.971,1.21-1.992,2.065l-4.43-4.271c-0.9-0.891-2.607-1.592-3.883-1.592H24.5h-0.002 h-8.63c-1.275,0-2.981,0.701-3.882,1.592l-4.429,4.271c-0.023-0.855-0.228-2.065-1.992-2.065c-1.691,0-3.669,0.506-3.669,1.932 c0,1.224,1.534,2.417,2.958,2.74l-1.717,1.657c-0.039,0.037-0.066,0.074-0.1,0.112C1.2,20.272,0,23.184,0,25.297v6.279 c0,1.524,0.601,2.907,1.572,3.938v2.435c0,1.424,1.192,2.585,2.658,2.585h3.214c1.466,0,2.657-1.159,2.657-2.585v-0.623h14.397 H24.5h14.396v0.623c0,1.426,1.19,2.585,2.658,2.585h3.213c1.467,0,2.657-1.161,2.657-2.585v-2.435 c0.972-1.031,1.572-2.414,1.572-3.938v-6.279C48.998,23.184,47.798,20.272,45.961,18.702z M13.613,11.953 c0.623-0.519,1.712-0.913,2.255-0.913h8.63H24.5h8.63c0.543,0,1.632,0.394,2.255,0.913l5.809,5.63H24.5h-0.002H7.805L13.613,11.953 z M1.993,24.347c0-1.546,1.21-2.801,2.704-2.801c1.493,0,6.372,2.864,6.372,4.41s-4.879,1.188-6.372,1.188 C3.203,27.144,1.993,25.894,1.993,24.347z M10.102,34.573H9.587H9.072l-3.055,0.005c-0.848-0.264-1.446-0.572-1.869-0.903 c-0.214-0.167-0.378-0.341-0.506-0.514c-0.129-0.175-0.223-0.347-0.284-0.519c-0.38-1.074,0.405-2.061,0.405-2.061h5.214 l3.476,3.99L10.102,34.573L10.102,34.573z M31.996,34.575H24.5h-0.002h-7.496c-1.563,0-2.832-1.269-2.832-2.831h10.328H24.5h10.328 C34.828,33.308,33.559,34.575,31.996,34.575z M32.654,29.812H24.5h-0.002h-8.154c-1.7,0-3.08-2.096-3.08-4.681h11.234H24.5h11.234 C35.734,27.717,34.354,29.812,32.654,29.812z M45.641,32.644c-0.062,0.172-0.156,0.344-0.285,0.518 c-0.127,0.173-0.291,0.347-0.506,0.514c-0.422,0.331-1.021,0.641-1.869,0.903l-3.055-0.005h-0.515h-0.515h-2.353l3.478-3.99h5.213 C45.234,30.583,46.02,31.568,45.641,32.644z M44.301,27.144c-1.492,0-6.371,0.356-6.371-1.188s4.879-4.41,6.371-4.41 c1.494,0,2.704,1.255,2.704,2.801C47.005,25.892,45.795,27.144,44.301,27.144z"></path> </g> </g></svg>
       </div>
       <div className='p-[.2em] h-[32.2px] bg-[oklab(0 0 0/0.2)] border-1 border-[hsla(0,0%,54%,.102)] backdrop-blur-sm'>
@@ -26,7 +31,7 @@ const Header = () => {
   </div>
 };
 const Words = () => {
-  return <h1 className={`${Aeo.className}   w-[80%] lg:w-[55%] lg:text-[5.4172767204vw] flex flex-wrap  leading-[100%]   gap-x-[.8125rem]  text-white text-[8.3333333333vw]`}>
+  return <h1 className={`${Aeo.className} wordzey   w-[80%] lg:w-[55%] lg:text-[5.4172767204vw] flex flex-wrap  leading-[100%]   gap-x-[.8125rem]  text-white text-[8.3333333333vw]`}>
     <div className="relative  inline-block">
       <div className=" relative inline-block">C</div>
       <div className=" relative inline-block">o</div>
@@ -69,7 +74,7 @@ const Hero = () => {
 }
 
 const Selector = ({ videoLinks, switchVid, currindex }: { currindex: number, switchVid: (index: number) => void, videoLinks: string[] }) => {
-  return <div className='w-full z-30 h-fit flex justify-center items-center'>
+  return <div id='infox2' className='w-full z-30 h-fit flex justify-center items-center'>
     <div className='p-[.375rem]   bottom-[2rem] absolute rounded-[1.25rem]'>
       <div className='flex gap-1.5'>
         {videoLinks.map((_, index) => {
@@ -83,14 +88,14 @@ const Selector = ({ videoLinks, switchVid, currindex }: { currindex: number, swi
 }
 
 const CurrentInfo = ({ name, image, description, purePerformances }: carInf) => {
-  return <div className='w-[94.3%] lg:top-[.5em] lg:w-[50%] lg:h-[258.16px] flex gap-[10px] p-[4px] border border-[#0000361a] rounded-[2px] absolute top-[.5rem]  backdrop-blur-[5px] bg-[#02000333] h-[204px]'>
+  return <div className='w-[94.3%] scale-[0.6] babyz lg:top-[.5em] lg:w-[50%] lg:h-[258.16px] flex gap-[10px] p-[4px] border border-[#0000361a] rounded-[2px] absolute top-[.5rem]  backdrop-blur-[5px] bg-[#02000333] h-[204px]'>
 
     <div className='w-1/2 h-full flex flex-col justify-between'>
       <div id='curr' className='w-full  lg:h-[13.5106rem] h-[10.5rem]'>
         <Image className='w-full transition-all duration-700 ease-in-out h-full object-cover' width={500} key={image} height={500} alt={name} src={image} />
       </div>
       <div className='w-full flex items-center bg-white rounded-[.125rem]  lg:h-[1.7488rem] h-[1.4163rem]'>
-        <p className={`${IMB.className} text-[.7142rem] lg:text-[.875rem]  w-full  px-[.3em]`}>PURCHASE</p>
+        <p className={`${IMB.className} text-[.7142rem] lg:text-[.875rem]  w-full  px-[.3em]`}>zeekr {name}</p>
       </div>
     </div>
 
@@ -111,6 +116,7 @@ const CurrentInfo = ({ name, image, description, purePerformances }: carInf) => 
   </div>
 }
 const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isPending: boolean, data: Car[] | undefined }) => {
+
   const imageRefs = useRef<HTMLVideoElement[]>([]);
   const [currindex, setindex] = useState<number>(0);
   const [currentCarInfo, setCurrentCarInfo] = useState<carInf>({
@@ -124,7 +130,6 @@ const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isP
     "/car1.mp4",
     "/car3.mp4"];
   const { currentInfo } = standard()
-  gsap.registerPlugin(ScrambleTextPlugin, SplitText, Draggable);
 
   const switchVid = (index: number) => {
     if (index == currindex) return;
@@ -161,8 +166,46 @@ const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isP
     tl.call(RemoveAnim);
     tl.call(Add);
   }
+  const takeHeaderOut = () => {
+    gsap.to('#header', {
+      y: -200,
+      duration: 1,
+      ease: "power2.inOut",
+    })
+  }
+  const bringHeaderBack = () => {
+    gsap.to('#header', {
+      y: 0,
+      duration: 1,
+      ease: "power2.inOut"
 
+    })
+  }
   useEffect(() => {
+    gsap.registerPlugin(ScrambleTextPlugin, ScrollToPlugin, SplitText, Draggable, ScrollTrigger);
+
+
+
+
+
+    ScrollTrigger.create({
+      trigger: '#shopsect',
+      start: 'top 78px',
+      onEnter: () => { takeHeaderOut() },
+      onLeaveBack: () => { bringHeaderBack() },
+    });
+
+
+    gsap.to("#stickyz", {
+      opacity: 0,
+      y: -700,
+      scrollTrigger: {
+        trigger: ".shopman",
+        start: "top 20%",
+        scrub: true,
+      }
+    })
+
     gsap.set(imageRefs.current[0], {
       opacity: 1
     });
@@ -205,21 +248,36 @@ const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isP
       })
     });
     const desker = document.getElementById('desker');
-    const newText = new SplitText(desker, { type: 'lines' })
-    gsap.from(newText.lines, { opacity: 0, stagger: 0.3 })
+    const newText = new SplitText(desker, { type: 'lines' });
+    gsap.from(newText.lines, { opacity: 0, stagger: 0.3 });
   }, [
     currentCarInfo
   ]);
 
-
+useEffect(()=>{
+  const loks = document.querySelectorAll('#caster');
+  console.log(loks)
+    loks.forEach((lok)=>{
+      gsap.set(lok,{scale:0.7})
+    gsap.to(lok,{
+      scale:1,
+      scrollTrigger:{
+        trigger:lok,
+        start:"top 90%",
+        end:"top 65%",
+        scrub:true
+      }
+    })
+   })
+},[isPending,data])
 
 
   const { updateSearch } = search()
 
   const Search = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSearch(`${e.currentTarget.value}`)
 
     if (e.target.value) {
-      updateSearch(`${e.currentTarget.value}`)
       params.set('searchTerm', `${e.currentTarget.value}`);
     } else {
       params.delete('searchTerm')
@@ -247,8 +305,11 @@ const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isP
     const newUrl = `${window.location.pathname}?${params.toString()}`
     window.history.replaceState(null, '', newUrl);
   }
-  return <>
-    <div className={`${Aeo.className} lg:mb-[1em] lg:pt-[5em] px-[1em] pt-[2em] `}>
+  const types = ["Suv", "Minivan", "Hatchback"];
+
+  return <div>
+    <div id='shopsect' className={`${Aeo.className} relative overflow-visible lg:mb-[1em] lg:pt-[5em] px-[1em] pt-[2em] `}>
+
       <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
         Top Zeekr picks vehicle for you
       </h2>
@@ -256,9 +317,11 @@ const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isP
         Experience the epitome of amazing journey with our top picks.
       </p>
     </div>
-    <div className={`${Aeo.className} lg:hidden h-[5em] p-[.7em] `}>
-      <div className='w-full gap-[2em] flex justify-between items-center'>
+    <div id='stickyz' className={`${Aeo.className}  sticky top-0  bg-white z-30 lg:hidden h-[5em] pb-[.5em]  p-[.7em] `}>
+      <div className='w-full gap-[2em] flex  lg:border-b border-zinc-100 lg:pb-[1em] items-center'>
         <input onChange={(e) => Search(e)} className="text-sm rounded-full px-[1em] py-[.5em] max-w-[24.5rem] outline-none w-[80%] border border-gray-200" title='search' placeholder='search' type="text" />
+
+
 
         <div onClick={showFil} className='flex items-center cursor-pointer gap-[.5em] px-[.5em] rounded-[4px] bg-gray-100'>
           <div className='w-[1em] h-full '>
@@ -303,14 +366,30 @@ const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isP
         })}
       </div>
     </div>
-    <div className='w-full lg:grid-cols-4 grid luke:grid-cols-3 gap-[1em] grid-cols-2 p-[1em] h-fit'>
-      {!isPending ? data?.map((vehicle) => {
-        return <SingleCar seats={vehicle.specifics.seats} stars={vehicle.specifics.stars} design={vehicle.specifics.design_sha} gearShift={vehicle.specifics.gearShift} price={vehicle.Price} Type={vehicle.Type} image_url={vehicle.image_url} Name={vehicle.Name} key={vehicle.id} />
-      }) : <Skeletons />}
 
 
+
+    <div className={`${Aeo.className} lg:flex px-[.5em] overflow-visible relative`}>
+      <div className=' h-[640px] pr-[.5em] border-r border-zinc-200  sticky top-[1em] hidden lg:block  w-[15em]'>
+        <input onChange={(e) => Search(e)} className="text-sm rounded-full px-[1em] py-[.5em] w-full outline-none  border border-gray-200" title='search' placeholder='search' type="text" />
+
+
+        <div className='w-full'>
+          {types.map((type: string) => {
+            return <SingleFilt params={params} key={type} Text={type} />
+          })}
+        </div>
+      </div>
+      <div className='w-full relative lg:grid-cols-3 grid luke:grid-cols-3 gap-[1em] grid-cols-2 p-[1em] h-fit'>
+        {!isPending ? data?.map((vehicle) => {
+          return <SingleCar seats={vehicle.specifics.seats} stars={vehicle.specifics.stars} design={vehicle.specifics.design_sha} gearShift={vehicle.specifics.gearShift} price={vehicle.Price} Type={vehicle.Type} image_url={vehicle.image_url} Name={vehicle.Name} key={vehicle.id} />
+        }) : <Skeletons />}
+
+
+      </div>
     </div>
-    <div className='w-full h-screen relative'>
+
+    <div className='w-full shopman h-screen relative'>
       {VideoLinks.map((link: string, i) => {
         return <video
           ref={(el) => { if (el) imageRefs.current[i] = el }}
@@ -348,21 +427,28 @@ const ShopSection = ({ params, isPending, data }: { params: URLSearchParams, isP
 
 
 
-    </div></>
+    </div></div>
 }
 
 
 const SingleCar = ({ Name, Type, image_url, gearShift, seats, design, stars, price }: { Name: string, Type: string, image_url: string, gearShift: string, seats: number, design: number, stars: number, price: number }) => {
-  return <div className={`${Aeo.className}  max-w-sm  relative  md:max-w-md lg:max-w-sm bg-white text-white  overflow-hidden`}>
+  const { setStatus } = deets();
+  const { setCCI } = CCI()
+  const handleSingleCar = () => {
+    setStatus();
+    setCCI({ Name: Name, Type: Type, image_url: image_url, gearShift: gearShift, seats: seats, design: design, stars: stars, price: price });
+
+  }
+  return <div onClick={handleSingleCar} id='caster' className={`${Aeo.className}   cursor-pointer  max-w-sm  relative  md:max-w-md lg:max-w-sm bg-white text-white  overflow-hidden`}>
     <div className="absolute bg-gray-200 text-sm text-gray-700 px-3 py-1 rounded-full top-2 left-2">
       {Type}
     </div>
-    <div className='h-48 bg-gray-50 flex justify-center items-center w-full'>
+    <div className='h-48 cursor-pointer bg-gray-50 flex justify-center items-center w-full'>
       <img src={`${image_url}`} alt={Name} />
 
     </div>
 
-    <div className="pt-[1em]">
+    <div className="pt-[1em] cursor-pointer">
       <h2 className="text-lg font-semibold text-gray-800">{Name}</h2>
 
       <div className="flex items-center text-sm text-gray-600 mt-1">
@@ -389,6 +475,7 @@ const SingleCar = ({ Name, Type, image_url, gearShift, seats, design, stars, pri
         </div>
         <div className="flex items-center">
           <div className="w-4 h-4  rounded mr-1">
+
             <Image className='w-full h-full' src={'/star.png'} width={1000} height={1000} alt='gear' />
 
           </div>
@@ -437,14 +524,14 @@ const MobileFilters = ({ params }: { params: URLSearchParams }) => {
   const closeFilt = () => {
     gsap.set('#filter', { y: 900 })
   }
-  const types = ["suv", "Mininvan", "Hatchback"];
+  const types = ["Suv", "Minivan", "Hatchback"];
   return <div onClick={closeFilt} id='filter' className='w-full md:justify-center md:items-center   translate-y-[700px] flex flex-col justify-between  z-50 bg-[oklab(0 0 0/0.2)] backdrop-blur-[5px] h-screen top-0 bottom-0 left-0 right-0 fixed'>
     <div className='md:hidden'></div>
     <div onClick={(e) => e.stopPropagation()} id='whitboy' className='bg-white md:w-[50%] md:rounded-sm md:border rounded-t-lg border-t border-zinc-200 w-full h-[50%]'>
       <div className='w-full md:hidden flex pt-[1em] justify-center items-center'>
         <div className='w-[6em] h-[.6em] rounded bg-gray-400'></div>
       </div>
-      <div className={`${Aeo.className} px-[2em] pt-[2em]   w-full h-full flex flex-col `}>
+      <div className={`${Aeo.className}  border-r px-[2em] pt-[2em]   w-full h-full flex flex-col `}>
         <div className=''>
           <p className='font-bold mb-2 text-2xl'>Type</p>
           {types.map((type: string) => {
@@ -499,4 +586,237 @@ const Skeletons = () => {
   </>
 }
 
-export { Hero, ShopSection, Skeletons, Header, MobileFilters }
+const Footer = () => {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const section = useRef(null);
+   const router = useRouter()
+    const path = usePathname()
+  useEffect(() => {
+    router.replace(path,{scroll:false})
+    const video = videoRef.current;
+    if (video)
+      video.onloadedmetadata = () => {
+        gsap.to(video, {
+          scrollTrigger: {
+            trigger: section.current,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: true,
+          },
+          currentTime: video?.duration,
+          ease: 'none'
+        })
+      };
+    const split = new SplitText('#textboy', { type: 'words,lines' });
+    gsap.set(split.words, { opacity: 0.5 })
+    gsap.to(split.words, {
+      scrollTrigger: {
+        trigger: "#textboy",
+        scrub: true,
+        start: "top 95%",
+      },
+      stagger: 0.1,
+      opacity: 1,
+      ease: "power2.inOut"
+    });
+    gsap.to(split.lines.reverse(), {
+
+      scrollTrigger: {
+        trigger: ".triggerman",
+        scrub: true,
+        start: "top 20%",
+      },
+      opacity: 0,
+      stagger: 0.3,
+      ease: "power2.out",
+    })
+    gsap.to(video, {
+      opacity: 0,
+      scrollTrigger: {
+        trigger: ".trigger2",
+        start: "top 75%",
+        end: "top 65%",
+        scrub: true
+      }
+    });
+    gsap.to('#id-one', {
+      opacity: 1,
+      scrollTrigger: {
+        trigger: ".trigger3",
+        start: "top 60%",
+        scrub: true,
+      }
+    })
+    gsap.to('.id-two', {
+      opacity: 0,
+      scrollTrigger: {
+        trigger: ".trigger4",
+        start: "top 25%",
+        scrub: true,
+      }
+    })
+    gsap.to("#id-three", {
+      opacity: 1,
+      scrollTrigger: {
+        trigger: ".trigger5",
+        start: "top center",
+        scrub: true,
+      }
+    })
+    gsap.to(".id-four", {
+      opacity: 0,
+      scrollTrigger: {
+        trigger: ".trigger6",
+        start: "top 25%",
+        scrub: true,
+
+      }
+    });
+ gsap.to(".babyz",{
+       scale:1,
+       scrollTrigger:{
+        trigger:".babyz",
+        start:"top 85%",
+        end:"top 30%",
+        scrub:true,
+       }
+    });
+    gsap.to(".wordzey",{
+       opacity:0,
+       scrollTrigger:{
+        trigger:".wordzey",
+        start:"top 35%",
+        scrub:true,
+       }
+    });
+  }, [])
+
+
+  return <section ref={section} className='w-full   h-[1500vh] relative'>
+
+
+
+    <div id='broh' className='absolute w-full top-0 bg-transparent bottom-0'>
+      <div className='flex flex-col justify-center h-screen bg-transparent w-full   top-0 sticky z-50 items-center'>
+        <div id='textboy' className={`${Aeo.className} md:text-[7.03125vw] lg:w-[70%] lg:text-[4.6852122987vw] md:w-[80%]  w-[85%] bg-transparent leading-[120%] text-[6.6666666667vw] text-[#1e9ee3] text-center`}>
+          <p></p>Encourage sustainable driving with Zeekr cars for a greener future
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <video ref={videoRef} id='video' playsInline preload='auto' muted className='w-full sticky top-0 z-30 object-cover h-screen'>
+      <source src='/mainfooter.mp4' />
+    </video>
+    <div className='w-full h-screen sticky z-20 top-0 '>
+      <div></div>
+      <video loop autoPlay playsInline preload='auto' muted className='w-full  object-cover h-full'>
+        <source src='/mainfooterloop.mp4' />
+      </video>
+    </div>
+
+    <div id='id-one' className={`${Aeo.className} opacity-0 md:w-[50%]  sticky top-[1em] left-[1em] z-50 md:text-[5.03125vw]  lg:text-[3.6852122987vw]   w-[85%]  leading-[120%] text-[6.6666666667vw] md:left-[.3em] md:top-[.2em] text-white text-left`}>
+      <div className='id-two'>Intelligent Matrix LED projection Headlights.
+        <p className=' lg:text-[2vw] w-full text-wrap leading-[120%] mt-[1rem] md:text-[3vw] text-[4.0833333333vw]'>Zeekr's LED lights are bright, energy-efficient, durable, and stylishly designed.</p>
+      </div>
+    </div>
+
+    <div id='bye' className={`${IMB.className} text-center text-[3.8888888889vw] w-full flex justify-between text-white px-[1em] items-center baba h-[3em] lg:text-[2.0248901903vw] absolute z-50 bottom-[3em]`}>
+      <p>&copy; 2025 ZEEKR</p>
+      <p>ALL RIGHTS RESERVED.</p>
+      <p> WEBSITE BY DANIEL</p>
+    </div>
+
+    <div id='id-three' className={`${Aeo.className} opacity-0 md:ml-auto
+        md:w-[55%] lg:w-[50%]  sticky top-[64vh] left-[1em] z-50 md:text-[5.03125vw]  lg:text-[3.6852122987vw]   w-[85%]  leading-[120%] text-[6.6666666667vw] md:right-0 md:text-left md:bottom-[.2em] text-white text-left`}>
+      <div className='id-four'>Tires
+        <p className=' lg:text-[2vw] w-full text-wrap leading-[120%] mt-[1rem] md:text-[3vw] text-[4.0833333333vw]'>
+Zeekr's tires are high-quality, offering excellent grip, durability, and efficiency. Designed for performance, they ensure smooth handling and safety across various conditions, complementing Zeekr's premium electric vehicles.          </p>
+      </div>
+    </div>
+    <div className='triggerman absolute top-[90em] w-full h-[1em] '></div>
+    <div className='trigger2 absolute top-[1450vh] w-full h-[1em] '></div>
+    <div className='trigger3 absolute top-[500vh] w-full h-[1em] '></div>
+    <div className='trigger4 absolute top-[700vh] w-full h-[1em] '></div>
+    <div className='trigger5 absolute top-[900vh] w-full h-[1em] '></div>
+    <div className='trigger6 absolute top-[1050vh] w-full h-[1em] '></div>
+
+  </section>
+}
+
+
+const ProductDetails = () => {
+  const { infomation } = CCI()
+  const { setStatus } = deets();
+  console.log(infomation)
+  return <div className='bg-[oklab(0 0 0/0.2)] z-[900] fixed top-0 h-screen w-full flex justify-center items-center left-0 backdrop-blur-sm'>
+    <div className={`${Aeo.className} relative  rounded flex flex-col md:flex-row  bg-white md:w-[50%] border border-zinc-100 md:h-[50%] h-[90%] w-[18.9494rem]`}>
+      <div className='p-[0.2em] absolute top-[.5em] left-[.5em] pr-[0.3em]  w-fit border-1 border-[hsla(0,0%,54%,.102)] cursor-pointer bg-[oklab(0 0 0/0.2)]  backdrop-blur-lg  rounded-[2px]'>
+        <svg className='w-full h-full' width="93" height="24" viewBox="0 0 93 24" fill="black" xmlns="http://www.w3.org/2000/svg"><path d="M20.7202 21.5554H15.0706V14.4755L9.42012 8.74527V2.44172H20.7202V21.5554ZM1.88483 21.5554V2.44172H7.53529V9.53627L13.1857 15.2665V21.5554H1.88483ZM22.6034 0.532715H0V23.4669H22.6034V0.532715ZM40.2434 8.28208L34.3853 14.4796H39.9379V15.7444H31.305V15.7232L37.1632 9.52567H31.6316V8.26006H40.2451V8.28208H40.2434ZM76.8708 15.7428L71.458 11.8791V15.7428H69.9498V8.25843H71.458V11.8579L76.7188 8.25843H79.0401L73.7574 11.8359L79.2244 15.7428H76.8708ZM92.1022 15.7428L88.002 12.9474H88.7625C90.2045 12.9474 91.4734 12.1107 91.4734 10.6804V10.5809C91.4734 9.12853 90.1939 8.25843 88.7076 8.25843H82.6991V15.7428H84.2064V11.8367L89.8755 15.7428H92.1022ZM84.2064 9.52567H88.7407C89.3049 9.52567 89.8254 9.75726 89.9781 10.2196C89.9886 10.2971 89.9992 10.4944 89.9992 10.6942C89.9992 10.8924 89.9886 11.0897 89.9781 11.1672C89.8254 11.5749 89.3049 11.8277 88.7407 11.8277H84.2064V9.52567ZM52.5005 14.4127V15.7444H44.8302V8.26006H52.5005V9.59253H46.2964V11.199H52.1756V12.5323H46.2964V14.4144H52.4997L52.5005 14.4127ZM65.0607 14.4127V15.7444H57.392V8.26006H65.0615V9.59253H58.8574V11.199H64.7366V12.5323H58.8574V14.4144H65.0615L65.0607 14.4127Z" fill="black"></path></svg>
+      </div>
+      <div className="h-[60%] flex justify-center items-center  border-b border-zinc-100 md:h-full md:w-[55%] w-full bg-gray-100">
+        <img className='' src={infomation.image_url} alt={"n"} />
+
+      </div>
+      <div className="h-[40%]  p-[.5em] md:h-full md:w-[45%] w-full">
+        <div className='font-[800] md:h-[2.5em] flex items-center h-[4em] border-b border-gray-200  md:text-[2rem]  text-[1.25rem]'>{infomation.Name}</div>
+        <p className='opacity-[.5] text-[.875rem] mt-[.5em]'>${infomation.price}.00</p>
+
+
+        <div className='w-full text-[.875em] md:text-[.9rem] opacity-[.6] mt-[.5em] flex flex-wrap gap-x-[.5em] md:flex-col md:gap-[.5em]'>
+          <div className='flex  items-center gap-[.5em]'>
+            <div className='w-[1em] h-[1em] '>
+              <Image className='w-full h-full' src={'/gear.png'} width={1000} height={1000} alt={'gear'} />
+            </div>
+            <p>{infomation.gearShift}</p>
+          </div>
+          <div className='flex items-center gap-[.5em]'>
+
+            <div className='w-[1em] h-[1em] '>
+              <Image className='w-full h-full' src={'/carsit.png'} width={1000} height={1000} alt='car seat' />
+
+            </div>
+            <p>{infomation.seats}</p>
+
+          </div>
+
+          <div className='flex items-center gap-[.5em]'>
+
+            <div className='w-[1em] h-[1em] '>
+              <Image className='w-full h-full' src={'/star.png'} width={1000} height={1000} alt='gear' />
+
+            </div>
+            <p>{infomation.stars}</p>
+          </div>
+
+          <div className='flex items-center gap-[.5em]'>
+
+            <div className='w-[1em] h-[1em] '>
+              <Image className='w-full h-full' src={'/fueller.png'} width={1000} height={1000} alt='fuel' />
+
+
+            </div>
+            <p>{infomation.design}</p>
+          </div>
+
+        </div>
+        <div className='w-full flex justify-between  items-center'>
+
+          <div onClick={setStatus} className='w-[49%] hover:cursor-pointer text-white flex justify-center items-center bg-black text-[.875rem]  mt-[1em] rounded-full h-[58px]'>
+            close
+          </div>
+          <div className='w-[49%] hover:cursor-pointer text-white flex justify-center items-center bg-black text-[.875rem]  mt-[1em] rounded-full h-[58px]'>
+            purchase
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+}
+
+export { Footer, Hero, ShopSection, Skeletons, Header, MobileFilters, ProductDetails }
